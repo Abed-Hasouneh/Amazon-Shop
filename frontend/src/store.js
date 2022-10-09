@@ -8,13 +8,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 // import { categoriesReducer } from "./reducers/catgoriesReducer";
 import {
+  productDetailsReducer,
   // productDetailsReducer,
   productListReducer,
 } from "./reducers/ProductsReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
-  //   productDetails: productDetailsReducer,
+  productDetails: productDetailsReducer,
   //   categoriesList: categoriesReducer,
 });
 
