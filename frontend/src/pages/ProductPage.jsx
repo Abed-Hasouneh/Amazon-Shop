@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -6,24 +6,37 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import Rating from "../components/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails } from "../actions/productsActions";
 import { Helmet } from "react-helmet-async";
+import { addToCart } from "../actions/cartActions";
 
 const ProductPage = () => {
+  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const productDetails = useSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails;
   const { id } = useParams();
-  const navigate = useNavigate();
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
 
-  const returnHandler = () => {
-    navigate("/");
+  const addToCartHandler = () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem
+      ? Number(existItem.quantity) + Number(qty)
+      : Number(qty);
+    if (product.countInStock < quantity) {
+      window.alert("Sorry. Product is out of stock");
+      return;
+    }
+    dispatch(addToCart(id, quantity));
+    navigate("/cart");
   };
 
   return (
@@ -76,12 +89,29 @@ const ProductPage = () => {
                       )}
                     </Col>
                   </Row>
+                  <Row className="d-flex align-items-center my-2">
+                    <Col>QTY:</Col>
+                    <Col>
+                      <Form.Select
+                        value={qty}
+                        onChange={(e) => setQty(e.target.value)}
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Col>
+                  </Row>
                 </ListGroup.Item>
 
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="primary">Add to Cart</Button>
+                      <Button onClick={addToCartHandler} variant="primary">
+                        Add to Cart
+                      </Button>
                     </div>
                   </ListGroup.Item>
                 )}

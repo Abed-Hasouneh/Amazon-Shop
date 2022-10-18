@@ -2,7 +2,7 @@ const data = {
   products: [
     {
       name: "Nike Slim shirt",
-      id: "nike-slim-shirt",
+      _id: "1",
       category: "Shirts",
       image: "/images/p1.jpg", // 679px × 829px
       price: 120,
@@ -14,7 +14,7 @@ const data = {
     },
     {
       name: "Adidas Fit Shirt",
-      id: "adidas-fit-shirt",
+      _id: "2",
       category: "Shirts",
       image: "/images/p2.jpg",
       price: 250,
@@ -26,11 +26,11 @@ const data = {
     },
     {
       name: "Nike Slim Pant",
-      id: "nike-slim-pant",
+      _id: "3",
       category: "Pants",
       image: "/images/p3.jpg",
       price: 25,
-      countInStock: 15,
+      countInStock: 50,
       brand: "Nike",
       rating: 4.5,
       numReviews: 14,
@@ -38,7 +38,7 @@ const data = {
     },
     {
       name: "Adidas Fit Pant",
-      id: "adidas-fit-pant",
+      _id: "4",
       category: "Pants",
       image: "/images/p4.jpg",
       price: 65,

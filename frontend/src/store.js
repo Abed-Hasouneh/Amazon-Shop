@@ -6,20 +6,25 @@ import {
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-// import { categoriesReducer } from "./reducers/catgoriesReducer";
 import {
   productDetailsReducer,
-  // productDetailsReducer,
   productListReducer,
-} from "./reducers/ProductsReducers";
+} from "./reducers/productsReducers";
+import { cartReducer } from "./reducers/cartReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  //   categoriesList: categoriesReducer,
+  cart: cartReducer,
 });
 
-const initialState = {};
+const initialState = {
+  cart: {
+    cartItems: localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems"))
+      : [],
+  },
+};
 
 const middleware = [thunk];
 
