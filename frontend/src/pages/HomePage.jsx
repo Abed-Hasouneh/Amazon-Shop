@@ -20,18 +20,22 @@ const HomePage = () => {
   return (
     <div>
       {error && <MessageBox>{error}</MessageBox>}
-      {loading && <LoadingBox />}
+
       <Helmet>
         <title>Amazon</title>
       </Helmet>
       <h1>Featured Products</h1>
-      <Row>
-        {products.map((product) => (
-          <Col key={product._id} sm={6} md={4} lg={3} className="mb-3">
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <LoadingBox />
+      ) : (
+        <Row>
+          {products.map((product) => (
+            <Col key={product._id} sm={6} md={4} lg={3} className="mb-3">
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </div>
   );
 };
