@@ -33,7 +33,7 @@ const ShippingAddressPage = () => {
     if (!userInfo) {
       navigate("/login?redirect=/shipping");
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   return (
     <div className="py-4">

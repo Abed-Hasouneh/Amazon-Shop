@@ -15,7 +15,6 @@ import { toast } from "react-toastify";
 
 const PlaceOrderPage = () => {
   const cart = useSelector((state) => state.cart);
-  console.log(cart);
   const orderCreate = useSelector((state) => state.orderCreate);
   const { loading, success, error, order } = orderCreate;
   const navigate = useNavigate();
