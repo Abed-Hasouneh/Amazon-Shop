@@ -16,6 +16,7 @@ import LogInPage from "./pages/LogInPage";
 import { logout } from "./actions/userActions";
 import ShippingAddressPage from "./pages/ShippingAddressPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
+import PaymentMethodPage from "./pages/PaymentMethodPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,7 +80,8 @@ function App() {
               <Route path="/cart" element={<CartPage />} />
               <Route path="/login" element={<LogInPage />} />
               <Route path="/shipping" element={<ShippingAddressPage />}></Route>
-              <Route path="/register" element={<CreateAccountPage />} />
+              <Route path="/register" element={<CreateAccountPage />} ></Route>
+              <Route path="/payment" element={<PaymentMethodPage />}></Route>
             </Routes>
           </Container>
         </main>
