@@ -18,6 +18,7 @@ import ShippingAddressPage from "./pages/ShippingAddressPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -84,6 +85,7 @@ function App() {
               <Route path="/register" element={<CreateAccountPage />} ></Route>
               <Route path="/payment" element={<PaymentMethodPage />}></Route>
               <Route path="/placeorder" element={<PlaceOrderPage />} ></Route>
+              <Route path="/order/:id" element={<OrderPage />}></Route>
             </Routes>
           </Container>
         </main>
