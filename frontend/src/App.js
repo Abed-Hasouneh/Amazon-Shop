@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import Badge from "react-bootstrap/esm/Badge";
 import LogInPage from "./pages/LogInPage";
 import { logout } from "./actions/userActions";
+import ShippingAddressPage from "./pages/ShippingAddressPage";
+import CreateAccountPage from "./pages/CreateAccountPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +78,8 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/login" element={<LogInPage />} />
+              <Route path="/shipping" element={<ShippingAddressPage />}></Route>
+              <Route path="/register" element={<CreateAccountPage />} />
             </Routes>
           </Container>
         </main>

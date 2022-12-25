@@ -24,7 +24,7 @@ const HomePage = () => {
       <Helmet>
         <title>Amazon</title>
       </Helmet>
-      <h1>Featured Products</h1>
+      <h1 className="py-4">Featured Products</h1>
       {loading ? (
         <LoadingBox />
       ) : (
