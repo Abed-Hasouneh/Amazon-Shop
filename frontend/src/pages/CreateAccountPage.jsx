@@ -6,8 +6,6 @@ import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
 import { toast } from "react-toastify";
 
 const CreateAccountPage = () => {
@@ -21,7 +19,7 @@ const CreateAccountPage = () => {
   const redirect = redirectInUrl ? redirectInUrl : "/";
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const { userInfo } = userLogin;
   const navigate = useNavigate();
   useEffect(() => {
     if (userInfo) {

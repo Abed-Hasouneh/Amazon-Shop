@@ -8,10 +8,15 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { detailsOrder } from "../actions/orderActions";
+import { detailsOrder, payOrder } from "../actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
+import Axios from "axios";
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { getError } from "../utilites";
+import { toast } from "react-toastify";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
-const OrderPage = (props) => {
+const OrderPage = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,22 +24,68 @@ const OrderPage = (props) => {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
 
+  const orderPay = useSelector((state) => state.orderPay);
+  const {
+    loading: loadingPay,
+    success: successPay,
+  } = orderPay;
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: order.totalPrice },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  }
+
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {
+        dispatch(payOrder(order,details))
+    });
+  }
+
+  function onError(err) {
+    toast.error(getError(err));
+  }
 
   useEffect(() => {
     if (!userInfo) {
       return navigate("/login");
     }
 
-    if (!order._id || (order._id && order._id !== orderId)) {
+    if (!order?._id || successPay || (order?._id && order?._id !== orderId)) {
       dispatch(detailsOrder(orderId));
+      if (successPay) {
+        dispatch({ type: ORDER_PAY_RESET });
+      }
+    } else {
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await Axios.get('/api/keys/paypal', {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+      loadPaypalScript();
     }
-  }, [dispatch, orderId, userInfo, navigate, order._id]);
-
-  if (!order) {
-    return;
-  }
+  }, [dispatch, orderId, userInfo, navigate, paypalDispatch, successPay, order]);
 
   return loading ? (
     <LoadingBox></LoadingBox>
@@ -72,9 +123,9 @@ const OrderPage = (props) => {
               <Card.Text>
                 <strong>Method:</strong> {order.paymentMethod}
               </Card.Text>
-              {order.isPaid ? (
+              {order?.isPaid ? (
                 <MessageBox variant="success">
-                  Paid at {order.paidAt}
+                  Paid at {order?.paidAt}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Paid</MessageBox>
@@ -86,13 +137,13 @@ const OrderPage = (props) => {
             <Card.Body>
               <Card.Title>Items: {order.orderItems.length}</Card.Title>
               <ListGroup variant="flush">
-              <ListGroup.Item>
-                <Row className="align-items-center">
-                  <Col md={6}>product</Col>
-                  <Col md={3}>Qty</Col>
-                  <Col md={3}>Price</Col>
-                </Row>
-              </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row className="align-items-center">
+                    <Col md={6}>product</Col>
+                    <Col md={3}>Qty</Col>
+                    <Col md={3}>Price</Col>
+                  </Row>
+                </ListGroup.Item>
               </ListGroup>
               <ListGroup variant="flush">
                 {order.orderItems.map((item) => (
@@ -150,6 +201,22 @@ const OrderPage = (props) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {!order?.isPaid && (
+                  <ListGroup.Item>
+                    {isPending ? (
+                      <LoadingBox />
+                    ) : (
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    )}
+                    {loadingPay && <LoadingBox></LoadingBox>}
+                  </ListGroup.Item>
+                )}
               </ListGroup>
             </Card.Body>
           </Card>

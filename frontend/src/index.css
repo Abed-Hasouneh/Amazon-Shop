@@ -59,3 +59,10 @@ main {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
+.order-table{
+  overflow-y: scroll;
+}
+
+.table-container{
+  overflow: scroll;
+}
