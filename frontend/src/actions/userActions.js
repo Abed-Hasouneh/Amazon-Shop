@@ -137,7 +137,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       payload: data,
     });
   } catch (error) {
-    const message = getError(error)
+    const message = getError(error);
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
@@ -176,8 +176,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       payload: data,
     });
     localStorage.setItem("userInfo", JSON.stringify(data));
+    toast.success("User updated successfully");
   } catch (error) {
-    const message = getError(error)
+    const message = getError(error);
+    toast.error(message);
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
@@ -211,7 +213,7 @@ export const listUsers = () => async (dispatch, getState) => {
       payload: data,
     });
   } catch (error) {
-    const message = getError(error)
+    const message = getError(error);
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
@@ -242,7 +244,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {
-    const message = getError(error)
+    const message = getError(error);
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
@@ -278,7 +280,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
 
     dispatch({ type: USER_DETAILS_RESET });
   } catch (error) {
-    const message = getError(error)
+    const message = getError(error);
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }

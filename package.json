@@ -1,0 +1,21 @@
+{
+  "name": "amazon-shop",
+  "version": "1.0.0",
+  "description": "Amazon Full Stack project",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abed-Hasouneh/Amazon-Shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abed-Hasouneh/Amazon-Shop/issues"
+  },
+  "homepage": "https://github.com/Abed-Hasouneh/Amazon-Shop#readme"
+}

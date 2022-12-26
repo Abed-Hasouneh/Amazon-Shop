@@ -20,6 +20,7 @@ import PaymentMethodPage from "./pages/PaymentMethodPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ function App() {
               <Route path="/payment" element={<PaymentMethodPage />}></Route>
               <Route path="/placeorder" element={<PlaceOrderPage />}></Route>
               <Route path="/order/:id" element={<OrderPage />}></Route>
+              <Route path="/profile" element={<ProfilePage />} />
               <Route
                 path="/orderhistory"
                 element={<OrderHistoryPage />}
