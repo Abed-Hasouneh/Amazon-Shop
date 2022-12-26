@@ -6,10 +6,6 @@ import {
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import {
-  productDetailsReducer,
-  productListReducer,
-} from "./reducers/productsReducers";
 import { cartReducer } from "./reducers/cartReducers";
 
 import {
@@ -28,6 +24,11 @@ import {
   orderMineListReducer,
   orderPayReducer,
 } from "./reducers/orderReducers";
+
+import {
+  productDetailsReducer,
+  productListReducer,
+} from "./reducers/productsReducers";
 
 const reducer = combineReducers({
   productList: productListReducer,
