@@ -17,6 +17,12 @@ import {
   ORDER_SUMMARY_FAIL,
   ORDER_SUMMARY_SUCCESS,
   ORDER_SUMMARY_REQUEST,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_FAIL,
+  ORDER_DELETE_REQUEST,
+  ORDER_DELETE_SUCCESS,
+  ORDER_DELETE_FAIL,
 } from "../constants/orderConstants";
 import { getError } from "../utilites";
 
@@ -125,9 +131,44 @@ export const summaryOrder = () => async (dispatch, getState) => {
     dispatch({
       type: ORDER_SUMMARY_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      getError(error)
     });
+  }
+};
+
+export const deliverOrder = (orderId) => async (dispatch, getState) => {
+  dispatch({ type: ORDER_DELIVER_REQUEST, payload: orderId });
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  try {
+    const { data } = Axios.put(
+      `/api/orders/${orderId}/deliver`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+  } catch (error) {
+    toast.error(getError(error));
+    dispatch({ type: ORDER_DELIVER_FAIL, payload: getError(error) });
+  }
+};
+
+export const deleteOrder = (orderId) => async (dispatch, getState) => {
+  dispatch({ type: ORDER_DELETE_REQUEST, payload: orderId });
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  try {
+    const { data } = Axios.delete(`/api/orders/${orderId}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ORDER_DELETE_SUCCESS, payload: data });
+    toast.success("Order deleted successfully");
+  } catch (error) {
+    toast.error(getError(error));
+    dispatch({ type: ORDER_DELETE_FAIL, payload: getError(error)});
   }
 };

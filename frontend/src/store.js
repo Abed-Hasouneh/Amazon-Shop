@@ -20,6 +20,8 @@ import {
 
 import {
   orderCreateReducer,
+  orderDeleteReducer,
+  orderDeliverReducer,
   orderDetailsReducer,
   orderMineListReducer,
   orderPayReducer,
@@ -58,6 +60,8 @@ const reducer = combineReducers({
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
   orderSummary: orderSummaryReducer,
+  orderDeliver: orderDeliverReducer,
+  orderDelete: orderDeleteReducer,
   productDelete: productDeleteReducer,
 });
 

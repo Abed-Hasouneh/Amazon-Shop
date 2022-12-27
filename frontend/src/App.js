@@ -31,6 +31,7 @@ import AdminRoute from "./components/AdminRoute";
 import DashboardPage from "./pages/DashboardPage";
 import ProductListPage from "./pages/ProductListPage";
 import ProductEditPage from "./pages/ProductEditPage";
+import OrderListPage from "./pages/OrderListPage";
 
 function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -208,6 +209,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <ProductEditPage />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/orders"
+                element={
+                  <AdminRoute>
+                    <OrderListPage />
                   </AdminRoute>
                 }
               ></Route>
