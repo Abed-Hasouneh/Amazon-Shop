@@ -5,6 +5,9 @@ import {
   PRODUCT_CATEGORY_LIST_FAIL,
   PRODUCT_CATEGORY_LIST_REQUEST,
   PRODUCT_CATEGORY_LIST_SUCCESS,
+  PRODUCT_CREATE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_SUCCESS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
@@ -106,5 +109,29 @@ export const listProductsSearch =
       dispatch({ type: PRODUCT_LIST_SEARCH_SUCCESS, payload: data });
     } catch (error) {
       dispatch({ type: PRODUCT_LIST_SEARCH_FAIL, payload: error.message });
+    }
+  };
+
+  export const createProduct = () => async (dispatch, getState) => {
+    dispatch({ type: PRODUCT_CREATE_REQUEST });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    try {
+      const { data } = await axios.post(
+        '/api/products',
+        {},
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({
+        type: PRODUCT_CREATE_SUCCESS,
+        payload: data.product,
+      });
+      toast.success('product created successfully');
+    } catch (error) {
+      toast.error(getError(error));
+      dispatch({ type: PRODUCT_CREATE_FAIL, payload: getError(error) });
     }
   };

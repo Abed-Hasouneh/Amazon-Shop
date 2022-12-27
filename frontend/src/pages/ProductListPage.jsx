@@ -1,32 +1,63 @@
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { useDispatch, useSelector } from "react-redux";
-import { listProductsAdmin } from "../actions/productsActions";
+import { createProduct, listProductsAdmin } from "../actions/productsActions";
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductListPage = () => {
-  const { search, pathname } = useLocation();
+  const navigate = useNavigate();
+  const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const page = sp.get("page") || 1;
 
   const productListAdmin = useSelector((state) => state.productListAdmin);
-
   const { loading, error, products, pages } = productListAdmin;
+
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (successCreate) {
+      dispatch({ type: PRODUCT_CREATE_RESET });
+      navigate(`/product/${createdProduct?._id}/edit`);
+    }
     dispatch(listProductsAdmin(page));
-  }, [dispatch, page]);
+  }, [dispatch, page, createdProduct, navigate, successCreate]);
 
-  const deleteHandler = () => {
-    /// TODO: dispatch delete action
+  const createHandler = async () => {
+    if (window.confirm("Are you sure to create?")) {
+      dispatch(createProduct());
+    }
   };
 
   return (
-    <div>
-      <h1>Products</h1>
+    <div className="py-4">
+      <Row>
+        <Col>
+          <h1>Products</h1>
+        </Col>
+        <Col className="col text-end">
+          <div>
+            <Button type="button" onClick={createHandler}>
+              Create Product
+            </Button>
+          </div>
+        </Col>
+      </Row>
+
+      {loadingCreate && <LoadingBox></LoadingBox>}
+
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (

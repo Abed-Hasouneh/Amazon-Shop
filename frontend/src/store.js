@@ -32,6 +32,7 @@ import {
   productCategoryListReducer,
   productListSearchReducer,
   productListAdminReducer,
+  productCreateReducer,
 } from "./reducers/ProductsReducers";
 
 const reducer = combineReducers({
@@ -52,6 +53,7 @@ const reducer = combineReducers({
   productCategoryList: productCategoryListReducer,
   productListSearch: productListSearchReducer,
   productListAdmin: productListAdminReducer,
+  productCreate: productCreateReducer,
   orderSummary: orderSummaryReducer,
 });
 
