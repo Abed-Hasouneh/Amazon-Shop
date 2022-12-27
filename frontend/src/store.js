@@ -28,6 +28,8 @@ import {
 import {
   productDetailsReducer,
   productListReducer,
+  productCategoryListReducer,
+  productListSearchReducer,
 } from "./reducers/ProductsReducers";
 
 const reducer = combineReducers({
@@ -45,6 +47,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderMineList: orderMineListReducer,
+  productCategoryList: productCategoryListReducer,
+  productListSearch: productListSearchReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

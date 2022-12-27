@@ -21,8 +21,14 @@ import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import ProfilePage from "./pages/ProfilePage";
+import { useEffect, useState } from "react";
+import { listProductCategories } from "./actions/productsActions";
+import Button from "react-bootstrap/Button";
+import SearchBox from "./components/SearchBox";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const userLogin = useSelector((state) => state.userLogin);
@@ -30,18 +36,42 @@ function App() {
   const logoutHandler = () => {
     dispatch(logout());
   };
+
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const {
+    loading: loadingCategories,
+    error: errorCategories,
+    categories,
+  } = productCategoryList;
+  useEffect(() => {
+    dispatch(listProductCategories());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column site-container">
+      <div
+        className={
+          sidebarIsOpen
+            ? "d-flex flex-column site-container active-cont"
+            : "d-flex flex-column site-container"
+        }
+      >
         <ToastContainer position="bottom-center" limit={1} />
         <header>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
+              <Button
+                variant="dark"
+                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+              >
+                <i className="fas fa-bars"></i>
+              </Button>
               <LinkContainer to="/">
-                <Navbar.Brand>amazona</Navbar.Brand>
+                <Navbar.Brand>amazon</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
+                <SearchBox />
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
                     Cart
@@ -78,6 +108,29 @@ function App() {
             </Container>
           </Navbar>
         </header>
+        <div
+          className={
+            sidebarIsOpen
+              ? "active-nav side-navbar d-flex justify-content-between flex-wrap flex-column"
+              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+          }
+        >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item>
+              <strong>Categories</strong>
+            </Nav.Item>
+            {categories && categories.map((category) => (
+              <Nav.Item key={category}>
+                <Link
+                  to={`/search?category=${category}`}
+                  onClick={() => setSidebarIsOpen(false)}
+                >
+                  <p className="my-2">{category}</p>
+                </Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+        </div>
         <main>
           <Container>
             <Routes>
@@ -91,6 +144,7 @@ function App() {
               <Route path="/placeorder" element={<PlaceOrderPage />}></Route>
               <Route path="/order/:id" element={<OrderPage />}></Route>
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/search" element={<SearchPage />} />
               <Route
                 path="/orderhistory"
                 element={<OrderHistoryPage />}
