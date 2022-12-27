@@ -6,8 +6,15 @@ import Button from "react-bootstrap/Button";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct, listProductsAdmin } from "../actions/productsActions";
-import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
+import {
+  createProduct,
+  deleteProduct,
+  listProductsAdmin,
+} from "../actions/productsActions";
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DELETE_RESET,
+} from "../constants/productConstants";
 
 const ProductListPage = () => {
   const navigate = useNavigate();
@@ -25,6 +32,9 @@ const ProductListPage = () => {
     product: createdProduct,
   } = productCreate;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const { success: successDelete } = productDelete;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,11 +43,21 @@ const ProductListPage = () => {
       navigate(`/admin/product/${createdProduct?._id}`);
     }
     dispatch(listProductsAdmin(page));
-  }, [dispatch, page, createdProduct, navigate, successCreate]);
+
+    if (successDelete) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
+    }
+  }, [dispatch, page, createdProduct, navigate, successCreate, successDelete]);
 
   const createHandler = async () => {
     if (window.confirm("Are you sure to create?")) {
       dispatch(createProduct());
+    }
+  };
+
+  const deleteHandler = (product) => {
+    if (window.confirm("Are you sure to delete?")) {
+      dispatch(deleteProduct(product._id));
     }
   };
 
@@ -90,6 +110,14 @@ const ProductListPage = () => {
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
+                    </Button>
+                    &nbsp;
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => deleteHandler(product)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>
