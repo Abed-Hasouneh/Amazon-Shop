@@ -20,6 +20,9 @@ import {
   PRODUCT_LIST_SEARCH_REQUEST,
   PRODUCT_LIST_SEARCH_SUCCESS,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_UPDATE_FAIL,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_SUCCESS,
 } from "../constants/productConstants";
 import { toast } from "react-toastify";
 
@@ -133,5 +136,22 @@ export const listProductsSearch =
     } catch (error) {
       toast.error(getError(error));
       dispatch({ type: PRODUCT_CREATE_FAIL, payload: getError(error) });
+    }
+  };
+
+  export const updateProduct = (product) => async (dispatch, getState) => {
+    dispatch({ type: PRODUCT_UPDATE_REQUEST, payload: product });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    try {
+      const { data } = await axios.put(`/api/products/${product._id}`, product, {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      });
+      dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
+      toast.success('Product updated successfully');
+    } catch (error) {
+      toast.error(getError(error));
+      dispatch({ type: PRODUCT_UPDATE_FAIL, error: getError(error) });
     }
   };

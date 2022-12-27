@@ -33,6 +33,7 @@ import {
   productListSearchReducer,
   productListAdminReducer,
   productCreateReducer,
+  productUpdateReducer,
 } from "./reducers/ProductsReducers";
 
 const reducer = combineReducers({
@@ -54,6 +55,7 @@ const reducer = combineReducers({
   productListSearch: productListSearchReducer,
   productListAdmin: productListAdminReducer,
   productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
   orderSummary: orderSummaryReducer,
 });
 

@@ -30,6 +30,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import DashboardPage from "./pages/DashboardPage";
 import ProductListPage from "./pages/ProductListPage";
+import ProductEditPage from "./pages/ProductEditPage";
 
 function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -199,6 +200,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <ProductListPage />
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route
+                path="/admin/product/:id"
+                element={
+                  <AdminRoute>
+                    <ProductEditPage />
                   </AdminRoute>
                 }
               ></Route>

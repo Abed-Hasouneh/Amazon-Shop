@@ -30,7 +30,7 @@ const ProductListPage = () => {
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET });
-      navigate(`/product/${createdProduct?._id}/edit`);
+      navigate(`/admin/product/${createdProduct?._id}`);
     }
     dispatch(listProductsAdmin(page));
   }, [dispatch, page, createdProduct, navigate, successCreate]);
@@ -72,6 +72,7 @@ const ProductListPage = () => {
                 <th>PRICE</th>
                 <th>CATEGORY</th>
                 <th>BRAND</th>
+                <th>ACTIONS</th>
               </tr>
             </thead>
             <tbody>
@@ -82,6 +83,15 @@ const ProductListPage = () => {
                   <td>{product.price}</td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
+                  <td>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => navigate(`/admin/product/${product._id}`)}
+                    >
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
