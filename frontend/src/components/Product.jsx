@@ -7,7 +7,6 @@ import { addToCart } from "../actions/cartActions";
 import { useDispatch, useSelector } from "react-redux";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import Badge from "react-bootstrap/esm/Badge";
@@ -31,54 +30,52 @@ const Product = ({ product }) => {
   };
   return (
     <Card>
-      <Link to={`/product/${product._id}`}>
-        <img src={product.image} className="card-img-top" alt={product.name} />
-      </Link>
+      <div className="image-product">
+        <Link to={`/product/${product._id}`}>
+          <img
+            src={product.image}
+            className="card-img-top"
+            alt={product.name}
+          />
+        </Link>
+      </div>
+
       <Card.Body>
         <Link to={`/product/${product._id}`}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating rating={product.rating} numReviews={product.numReviews} />
         <Card.Text>${product.price}</Card.Text>
-        <ListGroup variant="flush">
-          <ListGroup.Item>
-            <Row>
-              <Col className="pb-2">
-                <span className="pe-2">Status:</span>
-                {product.countInStock > 0 ? (
-                  <Badge bg="success">In Stock</Badge>
-                ) : (
-                  <Badge bg="danger">Unavailable</Badge>
-                )}
-              </Col>
-            </Row>
-            <Row className="d-flex align-items-center my-2">
-              <Col className="pr-3">
-                {product.countInStock === 0 ? (
-                  <Button variant="light" disabled>
-                    Out of stock
-                  </Button>
-                ) : (
-                  <Button onClick={() => addToCartHandler(product)}>
-                    Add to cart
-                  </Button>
-                )}
-              </Col>
-              <Col>
-                <Form.Select
-                  value={qty}
-                  onChange={(e) => setQty(e.target.value)}
-                >
-                  {[...Array(product.countInStock).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col>
-            </Row>
-          </ListGroup.Item>
-        </ListGroup>
+
+        <Row>
+          <Col className="pb-2">
+            <span className="pe-2">Status:</span>
+            {product.countInStock > 0 ? (
+              <Badge bg="success">In Stock</Badge>
+            ) : (
+              <Badge bg="danger">Unavailable</Badge>
+            )}
+          </Col>
+        </Row>
+        <Row className="d-flex align-items-center my-2">
+          <Col>
+            <Button
+              onClick={() => addToCartHandler(product)}
+              disabled={product.countInStock === 0}
+            >
+              Add to cart
+            </Button>
+          </Col>
+          <Col>
+            <Form.Select value={qty} onChange={(e) => setQty(e.target.value)}>
+              {[...Array(product.countInStock).keys()].map((x) => (
+                <option key={x + 1} value={x + 1}>
+                  {x + 1}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );

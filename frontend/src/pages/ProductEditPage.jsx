@@ -9,6 +9,9 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { listProductDetails, updateProduct } from "../actions/productsActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getError } from "../utilites";
 
 const ProductEditPage = () => {
   const params = useParams(); // /product/:id
@@ -29,6 +32,31 @@ const ProductEditPage = () => {
 
   const productUpdate = useSelector((state) => state.productUpdate);
   const { loading: loadingUpdate, success: successUpdate } = productUpdate;
+
+  const [loadingUpload, setLoadingUpload] = useState(false);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append("file", file);
+    setLoadingUpload(true);
+    try {
+      setLoadingUpload(false);
+      const { data } = await axios.post("/api/upload", bodyFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      toast.success("Image uploaded successfully");
+      setImage(data.secure_url);
+    } catch (err) {
+      setLoadingUpload(false);
+      toast.error(getError(err));
+    }
+  };
 
   useEffect(() => {
     if (successUpdate) {
@@ -98,8 +126,12 @@ const ProductEditPage = () => {
             <Form.Control
               value={image}
               onChange={(e) => setImage(e.target.value)}
-              required
             />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="imageFile">
+            <Form.Label>Upload File</Form.Label>
+            <Form.Control type="file" onChange={uploadFileHandler} />
+            {loadingUpload && <LoadingBox></LoadingBox>}
           </Form.Group>
           <Form.Group className="mb-3" controlId="category">
             <Form.Label>Category</Form.Label>
