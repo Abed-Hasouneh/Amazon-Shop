@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -14,11 +14,11 @@ import { Helmet } from "react-helmet-async";
 import { addToCart } from "../actions/cartActions";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { toast } from "react-toastify";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const productDetails = useSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails;
   const { id } = useParams();
@@ -38,7 +38,7 @@ const ProductPage = () => {
       return;
     }
     dispatch(addToCart(id, quantity));
-    navigate("/cart");
+    toast.success("Product Added to Cart");
   };
 
   return (
