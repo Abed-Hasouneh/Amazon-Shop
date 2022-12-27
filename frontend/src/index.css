@@ -94,3 +94,11 @@ main {
 .text-bold {
   font-weight: bold;
 }
+
+.image-product{
+  height: 350px;
+}
+.image-product img{
+  height: 100%;
+  background-size: cover;
+}
