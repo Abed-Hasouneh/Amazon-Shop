@@ -11,6 +11,9 @@ import {
   PRODUCT_LIST_SEARCH_REQUEST,
   PRODUCT_LIST_SEARCH_SUCCESS,
   PRODUCT_LIST_SEARCH_FAIL,
+  PRODUCT_LIST_ADMIN_REQUEST,
+  PRODUCT_LIST_ADMIN_SUCCESS,
+  PRODUCT_LIST_ADMIN_FAIL,
 } from "../constants/productConstants";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -23,6 +26,25 @@ export const productListReducer = (state = { products: [] }, action) => {
         products: action.payload,
       };
     case PRODUCT_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const productListAdminReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_LIST_ADMIN_REQUEST:
+      return { loading: true, products: [] };
+    case PRODUCT_LIST_ADMIN_SUCCESS:
+      return {
+        ...state,
+        products: action.payload.products,
+        page: action.payload.page,
+        pages: action.payload.pages,
+        loading: false,
+      };
+    case PRODUCT_LIST_ADMIN_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
