@@ -47,7 +47,7 @@ const OrderListPage = () => {
   };
 
   return (
-    <div>
+    <div className="py-4">
       <Helmet>
         <title>Orders</title>
       </Helmet>
