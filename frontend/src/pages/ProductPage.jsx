@@ -22,6 +22,7 @@ const ProductPage = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [qty, setQty] = useState(1);
+  const [selectedImage, setSelectedImage] = useState("");
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails;
@@ -76,11 +77,15 @@ const ProductPage = () => {
       {loading ? (
         <LoadingBox />
       ) : (
-        <Row>
-          <Col md={6}>
-            <img className="img-large" src={product.image} alt={product.name} />
+        <Row className="g-4">
+          <Col md={6} lg={6}>
+            <img
+              className="img-large"
+              src={selectedImage || product.image}
+              alt={product.name}
+            />
           </Col>
-          <Col md={3}>
+          <Col md={6} lg={3}>
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <Helmet>
@@ -96,12 +101,30 @@ const ProductPage = () => {
               </ListGroup.Item>
               <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
               <ListGroup.Item>
+              <Row xs={3} className="g-2">
+                {product && [product.image, ...(product.images? product.images : [])].map((x) => (
+                  <Col key={x+Math.random()}>
+                    <Card>
+                      <Button
+                        className="thumbnail"
+                        type="button"
+                        variant="light"
+                        onClick={() => setSelectedImage(x)}
+                      >
+                        <Card.Img variant="top" src={x} alt="product" />
+                      </Button>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </ListGroup.Item>
+              <ListGroup.Item>
                 Description:
                 <p>{product.description}</p>
               </ListGroup.Item>
             </ListGroup>
           </Col>
-          <Col md={3}>
+          <Col md={6} lg={6}>
             <Card>
               <Card.Body>
                 <ListGroup variant="flush">
