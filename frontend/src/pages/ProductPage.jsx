@@ -78,14 +78,14 @@ const ProductPage = () => {
         <LoadingBox />
       ) : (
         <Row className="g-4">
-          <Col md={6} lg={6}>
+          <Col md={6} lg={4}>
             <img
               className="img-large"
               src={selectedImage || product.image}
               alt={product.name}
             />
           </Col>
-          <Col md={6} lg={3}>
+          <Col md={6} lg={4}>
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <Helmet>
@@ -124,7 +124,7 @@ const ProductPage = () => {
               </ListGroup.Item>
             </ListGroup>
           </Col>
-          <Col md={6} lg={6}>
+          <Col md={6} lg={4}>
             <Card>
               <Card.Body>
                 <ListGroup variant="flush">

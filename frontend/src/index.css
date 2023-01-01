@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,7 +33,7 @@ main {
 }
 
 .btn-primary,
-.btn-outline-primary { 
+.btn-outline-primary {
   background-color: #f0c040;
   color: #000000;
 }
@@ -60,11 +60,11 @@ main {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
-.order-table{
+.order-table {
   overflow-y: scroll;
 }
 
-.table-container{
+.table-container {
   overflow: scroll;
 }
 
@@ -79,6 +79,7 @@ main {
   left: -300px;
   background-color: #100901;
   transition: 0.5s;
+  z-index: 999;
 }
 
 .site-container {
@@ -95,14 +96,113 @@ main {
   font-weight: bold;
 }
 
-.image-product{
+.image-product {
   height: 350px;
 }
-.image-product img{
+.image-product img {
   height: 100%;
   background-size: cover;
 }
 
 button.thumbnail {
   padding: 0;
+}
+
+/* Chatbox */
+.chatbox {
+  color: #000000;
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+}
+.chatbox ul {
+  overflow: scroll;
+  max-height: 20rem;
+}
+.chatbox li {
+  margin-bottom: 1rem;
+}
+.chatbox input {
+  width: calc(100% - 9rem);
+}
+
+.support-users {
+  background: #f0f0f0;
+  height: calc(100vh - 10rem);
+  max-height: calc(100vh - 10rem);
+  padding: 0;
+}
+.support-users ul {
+  padding: 0;
+}
+.support-users li {
+  list-style-type: none;
+  background-color: #f8f8f8;
+  height: 30px;
+}
+.support-users button {
+  background-color: transparent;
+  border: none;
+  text-align: left;
+}
+.support-users li {
+  margin: 0;
+  background-color: #f0f0f0;
+  border-bottom: 0.1rem #c0c0c0 solid;
+  position: relative;
+  cursor: pointer;
+  padding: 2px 10px;
+}
+
+.support-users li:hover {
+  background-color: #f0f0f0;
+}
+.support-users li.selected {
+  background-color: #c0c0c0;
+}
+.support-messages {
+  padding: 1rem;
+}
+.support-messages input {
+  width: calc(100% - 9rem);
+}
+.support-messages ul {
+  height: calc(100vh - 18rem);
+  max-height: calc(100vh - 18rem);
+  overflow: scroll;
+}
+.support-messages li {
+  list-style-type: none;
+}
+
+.support-users span {
+  width: 16px;
+  height: 16px;
+  right: 10px;
+  top: 6px;
+  border-radius: 50%;
+  position: absolute;
+}
+.support-users .offline {
+  background-color: #808080;
+}
+.support-users .online {
+  background-color: #20a020;
+}
+.support-users .unread {
+  background-color: #f02020;
+}
+
+.chatbox .card-Head {
+  position: relative;
+  margin-bottom:20px;
+}
+.chatbox .close-icon{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.chatbox.card-body{
+  height: 250px;
 }

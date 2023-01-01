@@ -34,6 +34,8 @@ import ProductEditPage from "./pages/ProductEditPage";
 import OrderListPage from "./pages/OrderListPage";
 import UserListPage from "./pages/UserListPage";
 import UserEditPage from "./pages/UserEditPage";
+import ChatBox from "./components/ChatBox";
+import SupportPage from "./pages/SupportPage";
 
 function App() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -120,6 +122,9 @@ function App() {
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
                         <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/support">
+                        <NavDropdown.Item>support</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -238,7 +243,18 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
+              <Route
+                path="/support"
+                element={
+                  <AdminRoute>
+                    <SupportPage />
+                  </AdminRoute>
+                }
+              ></Route>
             </Routes>
+            <footer className="center">
+              {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+            </footer>
           </Container>
         </main>
       </div>

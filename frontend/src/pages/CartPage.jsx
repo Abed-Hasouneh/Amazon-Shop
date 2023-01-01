@@ -41,8 +41,8 @@ const CartPage = () => {
       {loading ? (
         <LoadingBox />
       ) : (
-        <Row>
-          <Col md={8}>
+        <Row className="g-3">
+          <Col md={12} lg={8}>
             {cartItems.length === 0 ? (
               <MessageBox>
                 Cart is empty. <Link to="/">Go Shopping</Link>
@@ -51,7 +51,7 @@ const CartPage = () => {
               <ListGroup>
                 {cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
-                    <Row className="align-items-center">
+                    <Row className="align-items-center g-2">
                       <Col md={4}>
                         <img
                           src={item.image}
@@ -60,7 +60,7 @@ const CartPage = () => {
                         ></img>{" "}
                         <Link to={`/product/${item._id}`}>{item.name}</Link>
                       </Col>
-                      <Col md={3}>
+                      <Col xs={4} md={3}>
                         <Button
                           variant="light"
                           disabled={item.quantity === 1}
@@ -81,8 +81,8 @@ const CartPage = () => {
                           <i className="fas fa-plus-circle"></i>
                         </Button>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
-                      <Col md={2}>
+                      <Col xs={4} md={3}>${item.price}</Col>
+                      <Col xs={4} md={2}>
                         <Button
                           variant="light"
                           onClick={() => removeItemHandler(item)}
@@ -96,7 +96,7 @@ const CartPage = () => {
               </ListGroup>
             )}
           </Col>
-          <Col md={4}>
+          <Col md={7} lg={4}>
             <Card>
               <Card.Body>
                 <ListGroup variant="flush">
